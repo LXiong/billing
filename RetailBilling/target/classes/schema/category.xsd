@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.retailbilling.com"
+	targetNamespace="http://www.retailbilling.com" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" id="category" version="1.0">
+
+	<xs:element name="name" type="xs:string" nillable="false" />
+	<xs:element name="discount" type="xs:double" nillable="true" />
+	<xs:element name="blockpercentagediscount" type="xs:boolean"
+		default="false" />
+
+
+	<xs:element name="category">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="name" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="discount" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="blockpercentagediscount" minOccurs="0"
+					maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="categoryList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="category" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>

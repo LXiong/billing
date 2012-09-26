@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:productList xmlns:p="http://www.retailbilling.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.retailbilling.com product.xsd ">
+
+	<!-- For each product category declared here, there should be a category 
+		entry in the file :categorylist.xml. If this is not true, testCategoryEntryFoundForEachProductCategory() 
+		of the test class ProductFactoryTest will fail. So whenever you edit categories/products, 
+		then run this test to ensure sanctity
+		
+		Discounts mentioned here under each product declared below are not used as of now. 		
+		 -->
+
+	<p:product>
+		<p:uniqueid>1</p:uniqueid>
+		<p:name>Milk</p:name>
+		<p:category>groceries</p:category>
+		<p:price>100</p:price>
+		<p:discount>10</p:discount>
+		<p:blockpercentagediscount>false</p:blockpercentagediscount>
+	</p:product>
+
+	<p:product>
+		<p:uniqueid>2</p:uniqueid>
+		<p:name>Jeans</p:name>
+		<p:category>apparels</p:category>
+		<p:price>900</p:price>
+	</p:product>
+
+	<p:product>
+		<p:uniqueid>3</p:uniqueid>
+		<p:name>Shirt</p:name>
+		<p:category>apparels</p:category>
+		<p:price>500</p:price>
+	</p:product>
+
+	<p:product>
+		<p:uniqueid>4</p:uniqueid>
+		<p:name>bat</p:name>
+		<p:category>others</p:category>
+		<p:price>600</p:price>
+	</p:product>
+
+</p:productList>

@@ -1,0 +1,243 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.mck.billing</groupId>
+	<artifactId>RetailBilling</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>RetailBilling</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<drools.version>5.4.0.Final</drools.version>
+		<java.version>1.6</java.version>
+		<junit.version>4.10</junit.version>
+	</properties>
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+
+	<!--This plugin's configuration is used to store Eclipse m2e settings only. 
+		It has no influence on the Maven build itself. -->
+	<plugin>
+		<groupId>org.eclipse.m2e</groupId>
+		<artifactId>lifecycle-mapping</artifactId>
+		<version>1.0.0</version>
+		<configuration>
+			<lifecycleMappingMetadata>
+				<pluginExecutions>
+					<pluginExecution>
+						<pluginExecutionFilter>
+							<groupId>
+								org.jvnet.jaxb2.maven2
+							</groupId>
+							<artifactId>
+								maven-jaxb2-plugin
+							</artifactId>
+							<versionRange>
+								[0.7.1,)
+							</versionRange>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</pluginExecutionFilter>
+						<action>
+							<ignore></ignore>
+						</action>
+					</pluginExecution>
+				</pluginExecutions>
+			</lifecycleMappingMetadata>
+		</configuration>
+	</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<!-- This plugin unmarshals XML schema into Java classes -->
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.7.1</version>
+				<executions>
+					<execution>
+						<id>schema-product</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/resources/schema</schemaDirectory>
+							<schemaIncludes>
+								<include>product.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.mck.billing.generated.product</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>schema-category</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/resources/schema</schemaDirectory>
+							<schemaIncludes>
+								<include>category.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.mck.billing.generated.category</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Checkstyle plugin to verify the Java language syntactic constructs 
+				: -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>run-checkstyle</id>
+						<phase>test</phase>
+						<goals>
+							<goal>checkstyle</goal>
+						</goals>
+						<configuration>
+							<configLocation>RetailBillingCheckstyle.xml</configLocation>
+							<consoleOutput>true</consoleOutput>
+							<encoding>UTF-8</encoding>
+							<failsOnError>true</failsOnError>
+							<excludes>com/mck/billing/generated/**/*</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- The cobertura plugin for code coverage is commented below since I 
+				noticed last night that it has a bug of not being able to exclude classes. 
+				Even if I use the exludes construct in this plugin or in the checksyle plugin, 
+				the underlying surefire plugin that runs while execution picks up the excludes 
+				construct . I want to exclude the JAXB Unmarshalled classes. So commenting 
+				this plugin at the moment -->
+
+			<!-- <plugin> -->
+			<!-- <groupId>org.codehaus.mojo</groupId> -->
+			<!-- <artifactId>cobertura-maven-plugin</artifactId> -->
+			<!-- <version>2.4</version> -->
+			<!-- <configuration> -->
+			<!-- <check> -->
+			<!-- <totalLineRate>100</totalLineRate> -->
+			<!-- </check> -->
+			<!-- <formats> -->
+			<!-- <format>html</format> -->
+			<!-- <format>xml</format> -->
+			<!-- </formats> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>clean</id> -->
+			<!-- <phase>pre-site</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>clean</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- <execution> -->
+			<!-- <id>instrument</id> -->
+			<!-- <phase>install</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>check</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
+
+
+			<!-- maven-dependency-plugin and maven-jar-plugin plugins have been used 
+				below so that when you do a java -jar RetailBilling-1.0-SNAPSHOT.jar, the 
+				billing program should run, i.e. to make the jar executable -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.mck.billing.Start</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<version>${drools.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<version>${drools.version}</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

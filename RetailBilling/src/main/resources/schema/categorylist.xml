@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:categoryList xmlns:p="http://www.retailbilling.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.retailbilling.com category.xsd ">
+
+	<!-- There should be a category entry in this file for each product category 
+		declared in productlist.xml : If this is not true, testCategoryEntryFoundForEachProductCategory() 
+		of the test class ProductFactoryTest will fail. So whenever you edit categories/products, 
+		then run this test to ensure sanctity 
+		
+		Discounts mentioned here under each category declared below are not used as of now. 
+		-->
+	<p:category>
+		<p:name>groceries</p:name>
+		<p:discount>10</p:discount>
+		<p:blockpercentagediscount>true</p:blockpercentagediscount>
+	</p:category>
+
+	<p:category>
+		<p:name>apparels</p:name>
+		<p:discount>20</p:discount>
+		<p:blockpercentagediscount>false</p:blockpercentagediscount>
+	</p:category>
+
+	<p:category>
+		<p:name>others</p:name>
+	</p:category>
+
+
+</p:categoryList>
