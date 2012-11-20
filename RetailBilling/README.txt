@@ -1,4 +1,4 @@
-Product Billing System.
+Retail Product Billing System.
 
 _________________
 How to run :
